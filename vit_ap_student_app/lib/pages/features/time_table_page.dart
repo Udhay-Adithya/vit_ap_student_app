@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import '../../utils/provider/student_provider.dart';
+import '../../utils/provider/student/timetable_notifier.dart';
 import '../../widgets/timetable/my_tab_bar.dart';
 import 'bottom_navigation_bar.dart';
 
@@ -16,10 +16,10 @@ class TimeTablePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Future<void> refreshTimetableData() async {
       log("Going to fetch new timetable");
-      await ref.read(studentProvider.notifier).fetchAndUpdateTimetable();
+      await ref.read(timetableProvider.notifier).fetchTimetable();
     }
 
-    final timetableState = ref.watch(studentProvider.notifier).timetableState;
+    final timetableState = ref.watch(timetableProvider);
 
     Widget _buildErrorContent(BuildContext context) {
       return Container(

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../models/user/User.dart';
-import '../../pages/community/sort_criteria.dart'; // Ensure this import path is correct
+import '../../models/community.dart';
+import '../../pages/community/sort_criteria.dart';
 
 final postsProvider = StateNotifierProvider<PostsNotifier, List<Post>>((ref) {
   return PostsNotifier();

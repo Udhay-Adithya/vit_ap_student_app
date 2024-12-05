@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:vit_ap_student_app/utils/provider/student_provider.dart';
 import '../../utils/helper/text_newline.dart';
+import '../../utils/provider/student/timetable_notifier.dart';
 
 class MyUpcomingClassWidget extends ConsumerStatefulWidget {
   const MyUpcomingClassWidget({super.key});
@@ -21,7 +21,7 @@ class MyUpcomingClassWidgetState extends ConsumerState<MyUpcomingClassWidget> {
   @override
   Widget build(BuildContext context) {
     // Watch the timetable state
-    final timetableState = ref.watch(studentProvider.notifier).timetableState;
+    final timetableState = ref.watch(timetableProvider);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

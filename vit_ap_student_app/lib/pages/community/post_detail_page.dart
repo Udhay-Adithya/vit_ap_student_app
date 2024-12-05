@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:vit_ap_student_app/pages/community/comment_page.dart';
-import '../../models/user/User.dart';
+import '../../models/community.dart';
 import '../../utils/provider/community_provider.dart';
 
 class PostDetailPage extends ConsumerStatefulWidget {
@@ -97,7 +97,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
   @override
   Widget build(BuildContext context) {
     final post =
-        ref.watch(postsProvider).firstWhere((p) => p.id == widget.post.id);
+        ref.watch(postsProvider).firstWhere((Post p) => p.id == widget.post.id);
     final isPostOwner = widget.userId ==
         post.username; // Ensure this matches your criteria for ownership
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../utils/provider/biometric_provider.dart';
 
 class BiometricPage extends ConsumerStatefulWidget {
@@ -37,8 +36,7 @@ class _BiometricPageState extends ConsumerState<BiometricPage> {
     final String formattedDate = DateFormat('dd/MM/yyyy').format(selectedDate);
 
     // Watch the provider here
-    final biometricLogAsyncValue =
-        ref.watch(biometricLogProvider(formattedDate));
+    final biometricLogAsyncValue = ref.watch(biometricProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -121,7 +119,9 @@ class _BiometricPageState extends ConsumerState<BiometricPage> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    setState(() {}); // Rebuild to trigger new AsyncValue fetch
+                    ref
+                        .read(biometricProvider.notifier)
+                        .fetchBiometricLog(formattedDate);
                   },
                   child: Text(
                     'Go',

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../utils/provider/student_provider.dart';
+import '../../utils/provider/student/marks_notifier.dart';
 
 class MarksPage extends ConsumerStatefulWidget {
   const MarksPage({super.key});
@@ -20,9 +18,6 @@ class _MarksPageState extends ConsumerState<MarksPage> {
   void initState() {
     super.initState();
     loadLastSynced();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(studentProvider.notifier).loadLocalMarks();
-    });
   }
 
   Future<void> loadLastSynced() async {
@@ -43,7 +38,7 @@ class _MarksPageState extends ConsumerState<MarksPage> {
   }
 
   Future<void> refreshMarksData() async {
-    await ref.read(studentProvider.notifier).fetchAndUpdateMarks();
+    await ref.watch(marksProvider.notifier).fetchMarks();
     setState(() {
       lastSynced = DateTime.now();
     });
@@ -295,7 +290,7 @@ class _MarksPageState extends ConsumerState<MarksPage> {
 
   @override
   Widget build(BuildContext context) {
-    final marksState = ref.watch(studentProvider.notifier).marksState;
+    final marksState = ref.watch(marksProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(

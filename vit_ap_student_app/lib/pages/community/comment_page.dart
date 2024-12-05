@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:filter_profanity/filter_profanity.dart'; // Import the package
-import '../../models/user/User.dart';
+import '../../models/community.dart';
 import '../../utils/provider/community_provider.dart';
 
 class AddCommentPage extends ConsumerStatefulWidget {

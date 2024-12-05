@@ -7,12 +7,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../utils/provider/student/login_notifier.dart';
 import '../../widgets/custom/loading_dialogue_box.dart';
 import '../../widgets/custom/my_snackbar.dart';
 import '../../widgets/timetable/my_semester_dropdown.dart';
-import '../../utils/provider/providers.dart';
 import '../../utils/provider/theme_provider.dart';
 import '../onboarding/pfp_page.dart';
+import 'bottom_navigation_bar.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -96,16 +97,55 @@ class LoginPageState extends ConsumerState<LoginPage> {
         ..showSnackBar(snackBar as SnackBar);
     } else {
       showLoadingDialog(context, "Fetching all your information from\nVTOP");
-      ref
-          .read(loginProvider.notifier)
-          .login(usernameController.text.toUpperCase(), passwordController.text,
-              selectedSemSubID!, context)
-          .then((_) {});
+
+      ref.read(studentLoginProvider.notifier).fetchStudentData(
+          usernameController.text.toUpperCase(),
+          passwordController.text,
+          selectedSemSubID!);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final studentState = ref.watch(studentLoginProvider);
+    studentState.whenOrNull(
+      data: (_) {
+        // Navigate to home page on success
+        // Using addPostFrameCallback to avoid calling setState during build
+        if (studentState.hasValue && studentState.value!.isNotEmpty) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const MyBNB(),
+              ),
+              (Route<dynamic> route) => false,
+            );
+          });
+        }
+      },
+      error: (error, stackTrace) {
+        log("${error.toString()} ${stackTrace.toString()}");
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final snackBar = MySnackBar(
+            title: 'Login Failed',
+            message: error.toString(),
+            contentType: ContentType.failure,
+          ).build(context);
+
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(snackBar as SnackBar);
+        });
+      },
+    );
+    if (studentState.isLoading)
+      Container(
+        color: Colors.black54,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -304,24 +344,36 @@ class LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ),
-                    onPressed: () {
-                      String validationResult = validateInput();
-                      log('Input validation done');
-                      if (validationResult == "true") {
-                        _checkConnectivityAndLogin(context);
-                      } else {
-                        final snackBar = MySnackBar(
-                          title: 'Oops!',
-                          message: validationResult,
-                          contentType: ContentType.warning,
-                        ).build(context);
+                    onPressed: studentState.isLoading
+                        ? null
+                        : () {
+                            String validationResult = validateInput();
+                            log('Input validation done');
+                            if (validationResult == "true") {
+                              _checkConnectivityAndLogin(context);
+                            } else {
+                              final snackBar = MySnackBar(
+                                title: 'Oops!',
+                                message: validationResult,
+                                contentType: ContentType.warning,
+                              ).build(context);
 
-                        ScaffoldMessenger.of(context)
-                          ..hideCurrentSnackBar()
-                          ..showSnackBar(snackBar as SnackBar);
-                      }
-                    },
-                    child: const Text('Login'),
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(snackBar as SnackBar);
+                            }
+                          },
+                    child: studentState.isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.grey),
+                            ),
+                          )
+                        : const Text('Login'),
                   ),
                 ),
               ),

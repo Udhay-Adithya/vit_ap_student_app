@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:intl/intl.dart';
 
-import '../provider/student_provider.dart';
+import '../provider/student/timetable_notifier.dart';
 
 class UpcomingClassWidget extends ConsumerStatefulWidget {
   const UpcomingClassWidget({Key? key}) : super(key: key);
@@ -113,7 +113,7 @@ class _UpcomingClassWidgetState extends ConsumerState<UpcomingClassWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final timetableState = ref.watch(studentProvider.notifier).timetableState;
+    final timetableState = ref.watch(timetableProvider);
     return Container(
       child: ElevatedButton(
         onPressed: () => updateWidget(timetableState),

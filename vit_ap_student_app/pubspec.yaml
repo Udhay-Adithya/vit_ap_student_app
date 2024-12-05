@@ -58,7 +58,7 @@ dependencies:
   wiredash: ^2.2.1
   timeago: ^3.7.0
   retry: ^3.1.2
-  connectivity_plus: ^6.0.4
+  connectivity_plus: ^6.1.0
   wave: ^0.2.2
   permission_handler: ^11.3.1
   timezone: ^0.9.4
@@ -68,6 +68,9 @@ dependencies:
   app_settings: ^5.1.1
   filter_profanity: ^1.0.2+2
   home_widget: ^0.7.0
+  dartz: ^0.10.1
+  dio: ^5.7.0
+  equatable: ^2.0.7
   
 
 dev_dependencies:

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '.././utils/provider/providers.dart';
-import 'provider/biometric_provider.dart';
 import 'provider/notification_utils_provider.dart';
 
 Future<void> clearAllProviders(WidgetRef ref) async {
@@ -21,7 +20,7 @@ Future<void> clearAllProviders(WidgetRef ref) async {
 
   // Reset each provider to its initial state
   // ref.invalidate(fetchAttendanceProvider);
-  ref.invalidate(biometricLogProvider); // This is new
+  // ref.invalidate(biometricLogProvider); // This is new
   ref.invalidate(loginProvider);
   ref.invalidate(timetableProvider);
   ref.invalidate(paymentProvider);

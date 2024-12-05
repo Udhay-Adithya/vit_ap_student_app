@@ -116,31 +116,42 @@ Future<http.Response> makeLoginRequest(
 
 // Attendance API
 
-Future<http.Response> fetchAttendanceData() async {
+Future<http.Response> fetchAttendanceDataApi() async {
   Map<String, String> credentials = await getCredentials();
 
   return await makeApiRequest('login/attendance', credentials);
 }
 
 // Biometric API
-Future<http.Response> fetchBiometricLog(String date) async {
+Future<http.Response> fetchBiometricLogApi(String date) async {
   Map<String, String> credentials = await getCredentials();
   credentials['date'] = date;
   return await makeApiRequest('login/biometric', credentials);
 }
 
 // Login API
-Future fetchLoginData(String username, String password, String semSubID) async {
+Future fetchLoginDataApi(String regNo, String password, String semSubID) async {
   Map<String, String> credentials = {
-    'username': username,
+    'username': regNo,
     'password': password,
     'semSubID': semSubID,
   };
-  return await makeLoginRequest('login/getalldata', credentials);
+
+  // Add detailed logging
+  log('Attempting login with credentials: $credentials');
+
+  final response = await makeLoginRequest('login/getalldata', credentials);
+
+  // Log full response details
+  log('Response Status Code: ${response.statusCode}');
+  log('Response Body: ${response.body}');
+  log('Response Body Type: ${response.body.runtimeType}');
+
+  return response;
 }
 
 // Payments API
-Future<http.Response> fetchPaymentDetails() async {
+Future<http.Response> fetchPaymentDetailsApi() async {
   Map<String, String> credentials = await getCredentials();
   final prefs = await SharedPreferences.getInstance();
   credentials['applno'] =
@@ -150,13 +161,13 @@ Future<http.Response> fetchPaymentDetails() async {
 }
 
 // Timetable API
-Future<http.Response> fetchTimetable() async {
+Future<http.Response> fetchTimetableApi() async {
   Map<String, String> credentials = await getCredentials();
   return await makeApiRequest('login/timetable', credentials);
 }
 
 // General Outing API
-Future<http.Response> postGeneralOutingForm(
+Future<http.Response> postGeneralOutingFormApi(
     String outPlace,
     String purposeOfVisit,
     String outingDate,
@@ -175,7 +186,7 @@ Future<http.Response> postGeneralOutingForm(
 }
 
 // Weekend Outing API
-Future<http.Response> postWeekendOutingForm(
+Future<http.Response> postWeekendOutingFormApi(
     String outPlace,
     String purposeOfVisit,
     String outingDate,
@@ -192,19 +203,25 @@ Future<http.Response> postWeekendOutingForm(
 }
 
 //Fetch Weekend outing requests history
-Future<http.Response> fetchWeekendOutingRequests() async {
+Future<http.Response> fetchWeekendOutingRequestsApi() async {
   Map<String, String> credentials = await getCredentials();
   return await makeApiRequest('login/weekendoutingrequests', credentials);
 }
 
 //Fetch General outing requests history
-Future<http.Response> fetchGeneralOutingRequests() async {
+Future<http.Response> fetchGeneralOutingRequestsApi() async {
   Map<String, String> credentials = await getCredentials();
   return await makeApiRequest('login/generaloutingrequests', credentials);
 }
 
 //Fetch marks
-Future<http.Response> fetchMarks() async {
+Future<http.Response> fetchMarksApi() async {
   Map<String, String> credentials = await getCredentials();
   return await makeApiRequest('login/marks', credentials);
+}
+
+//Fetch exam schedule
+Future<http.Response> fetchExamScheduleApi() async {
+  Map<String, String> credentials = await getCredentials();
+  return await makeApiRequest('login/examschedule', credentials);
 }

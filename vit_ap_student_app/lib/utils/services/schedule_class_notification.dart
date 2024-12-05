@@ -3,13 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../provider/notification_utils_provider.dart';
-import '../provider/student_provider.dart';
+import '../provider/student/timetable_notifier.dart';
 import 'class_notification_service.dart';
 
 Future<void> scheduleClassNotifications() async {
   final container = ProviderContainer();
-  await container.read(studentProvider.notifier).loadLocalTimetable();
-  container.read(studentProvider.notifier).timetableState.when(
+  container.read(timetableProvider).when(
     data: (timetable) async {
       if (timetable.isEmpty) {
         log("Timetable is empty. Cannot schedule notifications.");

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../../models/user.dart';
+import '../../models/student_model.dart';
 
 const String studentKey = "student_data";
 

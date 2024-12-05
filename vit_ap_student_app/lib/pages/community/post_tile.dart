@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vit_ap_student_app/utils/provider/community_provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:vit_ap_student_app/pages/community/post_detail_page.dart';
-import '../../models/user/User.dart';
+import '../../models/community.dart';
 
 class PostTile extends ConsumerWidget {
   final String userId;

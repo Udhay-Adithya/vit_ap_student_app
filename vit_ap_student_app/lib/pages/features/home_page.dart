@@ -4,7 +4,6 @@ import 'package:lottie/lottie.dart';
 import 'package:vit_ap_student_app/widgets/home/my_upcoming_class_widget.dart';
 import 'package:vit_ap_student_app/widgets/home/my_weather_widget.dart';
 import 'package:vit_ap_student_app/widgets/home/quick_access.dart';
-import '../../utils/provider/student_provider.dart';
 import '../../widgets/custom/help_widget.dart';
 import '../../widgets/home/for_you.dart';
 import '../../widgets/home/greeting.dart';
@@ -24,11 +23,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   initState() {
     super.initState();
     checkForUpdate(context, false);
-    loadTimetable();
-  }
-
-  void loadTimetable() async {
-    await ref.read(studentProvider.notifier).loadLocalTimetable();
   }
 
   @override

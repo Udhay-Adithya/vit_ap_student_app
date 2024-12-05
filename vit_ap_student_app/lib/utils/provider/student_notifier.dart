@@ -1,40 +1,36 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'student_provider.dart';
 
-class StudentController {
+class StudentRepository {
   final StudentNotifier studentNotifier;
+  final ref = ProviderContainer();
 
-  StudentController(this.studentNotifier);
-
-  // void updateName(String newName) {
-  //   studentNotifier.updateName(newName);
-  // }
-
-  // void updateProfileImage(String newPath) {
-  //   studentNotifier.updateProfileImagePath(newPath);
-  // }
-
-  // void updateRegNo(String newRegNo) {
-  //   studentNotifier.updateRegNo(newRegNo);
-  // }
+  StudentRepository()
+      : studentNotifier = ProviderContainer().read(studentProvider.notifier);
 
   // Fetch and update timetable via API
-  Future<void> fetchTimetable() async {
-    await studentNotifier.fetchAndUpdateTimetable();
+  void updateTimetable(Map<String, dynamic> timetable) {
+    studentNotifier.updateStudentTimetable(timetable);
   }
 
-  // Fetch and update attendance via API
-  Future<void> fetchAttendance() async {
-    await studentNotifier.fetchAndUpdateAttendance();
+  // Update attendance after fetching from API
+  void updateAttendance(Map<String, dynamic> attendance) {
+    studentNotifier.updateStudentAttendance(attendance);
   }
 
-  // Fetch and update attendance via API
-  Future<void> fetchMarks() async {
-    await studentNotifier.fetchAndUpdateMarks();
+  // Update marks after fetching from API
+  void updateMarks(List<Map<String, dynamic>> marks) {
+    studentNotifier.updateStudentMarks(marks);
   }
 
-  // Perform login and update profile
-  Future<void> login(String username, String password, String semSubID) async {
-    await studentNotifier.loginAndUpdateProfile(username, password, semSubID);
+  // Update marks after fetching from API
+  void updatExamSchedule(Map<String, dynamic> examSchedule) {
+    studentNotifier.updateStudentExamSchedule(examSchedule);
+  }
+
+  void updatLocalStudentData(Map<String, dynamic> studentData) {
+    studentNotifier.updateLocalData(studentData);
   }
 
   // Method to update privacy mode

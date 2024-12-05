@@ -26,7 +26,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     log('Accessed Provider');
     state = state.copyWith(status: LoginStatus.loading);
     try {
-      final response = await fetchLoginData(username, password, semSubID);
+      final response = await fetchLoginDataApi(username, password, semSubID);
       log('Got response');
       log('$response.');
       if (response.statusCode == 200) {
@@ -139,7 +139,7 @@ class TimetableNotifier extends StateNotifier<Map<String, dynamic>> {
 
 // Payment Provider
 final paymentProvider = FutureProvider<Map<String, dynamic>>((ref) async {
-  await fetchPaymentDetails();
+  await fetchPaymentDetailsApi();
   final prefs = await SharedPreferences.getInstance();
   final paymentString = prefs.getString('payments') ?? '';
   if (paymentString.isNotEmpty) {
@@ -177,7 +177,7 @@ final generalOutingProvider = Provider.autoDispose<
     return (context, placeOfVisit, purposeOfVisit, outingDate, outTime, inDate,
         inTime) async {
       try {
-        dynamic res = await postGeneralOutingForm(
+        dynamic res = await postGeneralOutingFormApi(
             placeOfVisit, purposeOfVisit, outingDate, outTime, inDate, inTime);
 
         final snackBar = SnackBar(
@@ -219,7 +219,7 @@ final weekendOutingProvider = Provider.autoDispose<
       contactNumber,
     ) async {
       try {
-        dynamic res = await postWeekendOutingForm(
+        dynamic res = await postWeekendOutingFormApi(
             placeOfVisit, purposeOfVisit, outingDate, outTime, contactNumber);
 
         final snackBar = SnackBar(
@@ -250,10 +250,10 @@ final weekendOutingProvider = Provider.autoDispose<
 
 // Weekend outing requests history provider
 final weekendOutingRequestsProvider = FutureProvider<dynamic>((ref) async {
-  return fetchWeekendOutingRequests();
+  return fetchWeekendOutingRequestsApi();
 });
 
 // General outing requests history provider
 final generalOutingRequestsProvider = FutureProvider<dynamic>((ref) async {
-  return fetchGeneralOutingRequests();
+  return fetchGeneralOutingRequestsApi();
 });

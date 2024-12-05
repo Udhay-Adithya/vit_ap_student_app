@@ -76,7 +76,7 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final theme = ref.watch(themeProvider);
-    ref.read(studentProvider.notifier).init();
+    ref.read(studentProvider.notifier).init(ref);
     return Wiredash(
       projectId: 'vit-ap-student-app-uh1uuvl',
       secret: dotenv.env['WIREDASH_SECRET_KEY']!,

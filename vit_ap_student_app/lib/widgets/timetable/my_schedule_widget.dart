@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vit_ap_student_app/utils/helper/text_newline.dart';
-import 'package:vit_ap_student_app/utils/provider/student_provider.dart';
+import '../../utils/provider/student/timetable_notifier.dart';
 
 class MySchedule extends ConsumerWidget {
   final String day;
@@ -13,7 +13,7 @@ class MySchedule extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final timetableState = ref.watch(studentProvider.notifier).timetableState;
+    final timetableState = ref.watch(timetableProvider);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
